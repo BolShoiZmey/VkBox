@@ -5,14 +5,17 @@
     xmlns:catel="http://catel.codeplex.com"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:VKbox.ViewModels"
     Title="VkBox"
     Width="600"
     Height="400"
+    d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel}"
     d:DesignHeight="400"
     d:DesignWidth="600"
     Background="LightGray"
     ResizeMode="NoResize"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    >
 
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
@@ -52,7 +55,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             BorderBrush="Black"
-            Text="{Binding Name}" />
+            Text="{Binding Settings.Login}" />
         <TextBox
             Grid.Row="0"
             Grid.Column="0"
@@ -63,7 +66,7 @@
             VerticalAlignment="Top"
             BorderBrush="Black"
             FontFamily="Webdings"
-            Text="{Binding Pass}" />
+            Text="{Binding Settings.Pass}" />
         <Button
             Grid.Row="0"
             Grid.Column="0"

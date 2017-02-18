@@ -1,4 +1,11 @@
-﻿namespace VKbox
+﻿using System;
+using System.IO;
+using Catel.Data;
+using Catel.Runtime.Serialization;
+using Catel.Runtime.Serialization.Xml;
+using VKbox.Models;
+
+namespace VKbox
 {
     using System.Windows;
 
@@ -15,6 +22,8 @@
     public partial class App : Application
     {
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private Settings set;
+        private SerializationConfiguration _sc = new SerializationConfiguration();
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -43,9 +52,21 @@
 
             // TODO: Register custom types in the ServiceLocator
             //Log.Info("Registering custom types");
-            //var serviceLocator = ServiceLocator.Default;
-            //serviceLocator.RegisterType<IMyInterface, IMyClass>();
-
+            
+            if (File.Exists("Config.txt"))
+            {
+                using (var reader = new StreamReader("Config.txt"))
+                {
+                   set = ModelBase.Load<Settings>(reader.BaseStream, SerializationMode.Xml, _sc);        
+                }
+            }
+            else
+            {
+                set = new Settings();
+            }
+            var serviceLocator = ServiceLocator.Default;
+                serviceLocator.RegisterInstance(typeof (Settings), set);
+           
             StyleHelper.CreateStyleForwardersForDefaultStyles();
 
             Log.Info("Calling base.OnStartup");
@@ -58,6 +79,10 @@
             // Get advisory report in console
             ApiCopManager.AddListener(new ConsoleApiCopListener());
             ApiCopManager.WriteResults();
+            using (
+                var writer =
+                    new StreamWriter("Config.txt"))
+                set.Save(writer.BaseStream, SerializationMode.Xml, _sc);
 
             base.OnExit(e);
         }

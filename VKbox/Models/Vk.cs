@@ -58,7 +58,7 @@ namespace VKbox.ViewModels
             //};
             //var result = _request.Post("https://login.vk.com/", rp).ToString();
             //var testdrive = _request.Get("https://vk.com/").ToString();
-            /////////////////////////////////////////////////////// - без Api, всё работает.
+            ///////////////////////////////////////////////////// - без Api, всё работает.
 
             var reqParams = new RequestParams();
             var response =
@@ -83,7 +83,7 @@ namespace VKbox.ViewModels
         {
             var resp =
                 _request.Get(
-                    $"https://api.vk.com/method/friends.get.xml?fields=nickname,domain&access_token={Token}&count=10")
+                    $"https://api.vk.com/method/friends.get.xml?fields=nickname,domain&access_token={Token}")
                     .ToString();
           var usersString = resp.Substrings("<user>", "</user>");
             foreach (var userString in usersString)
